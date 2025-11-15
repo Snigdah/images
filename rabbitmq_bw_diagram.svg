@@ -1,0 +1,191 @@
+<svg viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="700" y="40" font-size="28" font-weight="bold" text-anchor="middle" fill="#000">
+    RabbitMQ Topic Exchange - Microservices Architecture
+  </text>
+  
+  <!-- Producer: Order Service -->
+  <rect x="50" y="350" width="200" height="120" rx="8" fill="none" stroke="#000" stroke-width="3"/>
+  <text x="150" y="390" font-size="18" font-weight="bold" text-anchor="middle" fill="#000">
+    Order Service
+  </text>
+  <text x="150" y="415" font-size="14" text-anchor="middle" fill="#000">
+    (Producer)
+  </text>
+  <text x="150" y="440" font-size="12" text-anchor="middle" fill="#333">
+    Creates: order.exchange
+  </text>
+  
+  <!-- Arrow 1: Producer to Exchange -->
+  <defs>
+    <marker id="arrowblack" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#000"/>
+    </marker>
+  </defs>
+  <line x1="250" y1="410" x2="380" y2="410" stroke="#000" stroke-width="3" marker-end="url(#arrowblack)"/>
+  <text x="315" y="400" font-size="13" font-weight="bold" text-anchor="middle" fill="#000">
+    Routing Key:
+  </text>
+  <text x="315" y="435" font-size="12" text-anchor="middle" fill="#000">
+    order.created
+  </text>
+  <text x="315" y="450" font-size="12" text-anchor="middle" fill="#000">
+    order.cancelled
+  </text>
+  <text x="315" y="465" font-size="12" text-anchor="middle" fill="#000">
+    order.shipped
+  </text>
+  
+  <!-- Exchange -->
+  <rect x="380" y="320" width="240" height="180" rx="8" fill="none" stroke="#000" stroke-width="3"/>
+  <text x="500" y="355" font-size="20" font-weight="bold" text-anchor="middle" fill="#000">
+    order.exchange
+  </text>
+  <text x="500" y="380" font-size="14" text-anchor="middle" fill="#333">
+    Type: TOPIC
+  </text>
+  <rect x="400" y="395" width="200" height="90" rx="5" fill="none" stroke="#000" stroke-width="1" stroke-dasharray="5,5"/>
+  <text x="500" y="415" font-size="12" text-anchor="middle" fill="#000">
+    Routing by Pattern Matching:
+  </text>
+  <text x="500" y="435" font-size="12" font-family="monospace" text-anchor="middle" fill="#000">
+    * = matches one word
+  </text>
+  <text x="500" y="455" font-size="12" font-family="monospace" text-anchor="middle" fill="#000">
+    # = matches 0 or more words
+  </text>
+  <text x="500" y="475" font-size="11" text-anchor="middle" fill="#333">
+    (Wildcard matching)
+  </text>
+  
+  <!-- Arrow 2: Exchange to Inventory Queue -->
+  <line x1="620" y1="370" x2="720" y2="260" stroke="#000" stroke-width="3" marker-end="url(#arrowblack)"/>
+  <text x="630" y="298" font-size="15" font-weight="bold" text-anchor="middle" fill="#000">
+    Binding: order.*
+  </text>
+  <text x="635" y="315" font-size="11" text-anchor="middle" fill="#333">
+    matches ALL
+  </text>
+  
+  <!-- Arrow 3: Exchange to Notification Queue -->
+  <line x1="620" y1="450" x2="720" y2="560" stroke="#000" stroke-width="3" marker-end="url(#arrowblack)"/>
+  <text x="622" y="540" font-size="15" font-weight="bold" text-anchor="middle" fill="#000">
+    Binding: order.created
+  </text>
+  <text x="630" y="518" font-size="11" text-anchor="middle" fill="#333">
+    (exact match only)
+  </text>
+  
+  <!-- Inventory Queue -->
+  <rect x="720" y="200" width="180" height="110" rx="5" fill="none" stroke="#000" stroke-width="3"/>
+  <text x="810" y="230" font-size="14" font-weight="bold" text-anchor="middle" fill="#000">
+    Queue
+  </text>
+  <text x="810" y="250" font-size="12" text-anchor="middle" fill="#000">
+    order.inventory.queue
+  </text>
+  <line x1="730" y1="265" x2="890" y2="265" stroke="#000" stroke-width="1"/>
+  <text x="810" y="285" font-size="11" text-anchor="middle" fill="#333">
+    DLX: order.deadletter
+  </text>
+  <text x="810" y="300" font-size="11" text-anchor="middle" fill="#333">
+    .exchange
+  </text>
+  
+  <!-- Notification Queue -->
+  <rect x="720" y="520" width="180" height="110" rx="5" fill="none" stroke="#000" stroke-width="3"/>
+  <text x="810" y="550" font-size="14" font-weight="bold" text-anchor="middle" fill="#000">
+    Queue
+  </text>
+  <text x="810" y="570" font-size="12" text-anchor="middle" fill="#000">
+    order.notification.queue
+  </text>
+  <line x1="730" y1="585" x2="890" y2="585" stroke="#000" stroke-width="1"/>
+  <text x="810" y="605" font-size="11" text-anchor="middle" fill="#333">
+    DLX: order.deadletter
+  </text>
+  <text x="810" y="620" font-size="11" text-anchor="middle" fill="#333">
+    .exchange
+  </text>
+  
+  <!-- Arrow 4: Queue to Inventory Consumer -->
+  <line x1="900" y1="255" x2="1020" y2="255" stroke="#000" stroke-width="3" marker-end="url(#arrowblack)"/>
+  
+  <!-- Arrow 5: Queue to Notification Consumer -->
+  <line x1="900" y1="575" x2="1020" y2="575" stroke="#000" stroke-width="3" marker-end="url(#arrowblack)"/>
+  
+  <!-- Inventory Consumer -->
+  <rect x="1020" y="200" width="230" height="110" rx="8" fill="none" stroke="#000" stroke-width="3"/>
+  <text x="1135" y="235" font-size="18" font-weight="bold" text-anchor="middle" fill="#000">
+    Inventory Service
+  </text>
+  <text x="1135" y="260" font-size="14" text-anchor="middle" fill="#000">
+    (Consumer)
+  </text>
+  <text x="1135" y="285" font-size="12" text-anchor="middle" fill="#333">
+    Processes: order.*
+  </text>
+  <text x="1135" y="300" font-size="11" text-anchor="middle" fill="#333">
+    (ALL order events)
+  </text>
+  
+  <!-- Notification Consumer -->
+  <rect x="1020" y="520" width="230" height="110" rx="8" fill="none" stroke="#000" stroke-width="3"/>
+  <text x="1135" y="555" font-size="18" font-weight="bold" text-anchor="middle" fill="#000">
+    Notification Service
+  </text>
+  <text x="1135" y="580" font-size="14" text-anchor="middle" fill="#000">
+    (Consumer)
+  </text>
+  <text x="1135" y="605" font-size="12" text-anchor="middle" fill="#333">
+    Processes: order.created
+  </text>
+  <text x="1135" y="620" font-size="11" text-anchor="middle" fill="#333">
+    (NEW orders only)
+  </text>
+  
+  <!-- Dead Letter Queue -->
+  <rect x="720" y="720" width="530" height="100" rx="8" fill="none" stroke="#000" stroke-width="3"/>
+  <text x="985" y="755" font-size="18" font-weight="bold" text-anchor="middle" fill="#000">
+    Dead Letter Service (DLX)
+  </text>
+  <text x="985" y="780" font-size="13" text-anchor="middle" fill="#000">
+    Exchange: order.deadletter.exchange
+  </text>
+  <text x="985" y="800" font-size="13" text-anchor="middle" fill="#000">
+    Queue: order.deadletter.queue | Binding: #
+  </text>
+  
+  <!-- DLX Connection Lines -->
+  <line x1="880" y1="310" x2="880" y2="720" stroke="#000" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="810" y1="630" x2="810" y2="720" stroke="#000" stroke-width="1" stroke-dasharray="5,5"/>
+  <text x="820" y="670" font-size="15" text-anchor="start" fill="#000">
+    Failed messages
+  </text>
+  
+  <!-- Legend Box -->
+  <rect x="50" y="720" width="620" height="100" rx="8" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="360" y="745" font-size="16" font-weight="bold" text-anchor="middle" fill="#000">
+    Routing Examples
+  </text>
+  
+  <!-- Legend Table -->
+  <text x="70" y="770" font-size="12" font-weight="bold" fill="#000">Routing Key</text>
+  <text x="250" y="770" font-size="12" font-weight="bold" fill="#000">Inventory</text>
+  <text x="400" y="770" font-size="12" font-weight="bold" fill="#000">Notification</text>
+  
+  <text x="70" y="790" font-size="11" font-family="monospace" fill="#000">order.created</text>
+  <text x="250" y="790" font-size="11" fill="#000">✓ YES</text>
+  <text x="400" y="790" font-size="11" fill="#000">✓ YES</text>
+  <text x="520" y="790" font-size="10" fill="#333">(matches both)</text>
+  
+  <text x="70" y="805" font-size="11" font-family="monospace" fill="#000">order.cancelled</text>
+  <text x="250" y="805" font-size="11" fill="#000">✓ YES</text>
+  <text x="400" y="805" font-size="11" fill="#000">✗ NO</text>
+  <text x="520" y="805" font-size="10" fill="#333">(order.* only)</text>
+  
+  <!-- Key Points -->
+  <text x="50" y="865" font-size="12" font-weight="bold" fill="#000">
+    Key: Producer creates exchange only | Consumers create their own queues + bindings | Loose coupling
+  </text>
+</svg>
